@@ -97,10 +97,11 @@ set numberwidth=5
 let g:lightline = {
 \   'colorscheme': 'one',
 \   'component': {
-\     'ale': '%{ALEGetStatusLine()}'
+\     'ale': '%{ALEGetStatusLine()}',
+\     'branch': '%{fugitive#statusline()}'
 \   },
 \   'active': {
-\     'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath' ] ],
+\     'left': [ [ 'mode', 'paste' ], [ 'branch', 'relativepath' ] ],
 \     'right': [ [ 'ale', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
 \   }
 \ }
@@ -155,6 +156,11 @@ let g:ale_sign_error = '⨉'
 let g:ale_sign_warning = '!'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+      \   'ruby': ['rubocop'],
+      \}
+
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
@@ -178,7 +184,7 @@ let NERDTreeShowHidden=1
 " appearance
 syntax enable
 set background=dark
-colorscheme dracula
+colorscheme monokai
 let g:NERDTreeStatusline="%{getcwd()}"
 
 if has("unix")
@@ -199,6 +205,7 @@ let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 let g:rubycomplete_use_bundler = 1
 inoremap <Nul> <C-x><C-o>
+
 " associate additional filetypes
 au BufRead,BufNewFile *.psql setfiletype sql
 ino ( ()<left>
@@ -219,4 +226,9 @@ nmap <F8> :TagbarToggle<CR>
 " Local config
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
+endif
+
+" set-color config
+if filereadable($HOME . "/setcolors.vim")
+  source ~/setcolors.vim
 endif
